@@ -50,9 +50,9 @@ end
 end
 
 if comparison == 1
-    load('C:\\Users\\The UEA VR & EEG Lab\\Documents\\MATLAB\\VIPA Analysis Code\\experiment_ids_order.mat')
+    load('S:\VIPA Study\EEG Data\MATLAB\\experiment_ids_order.mat')
 else if comparison == 2
-    load('C:\\Users\\The UEA VR & EEG Lab\\Documents\\MATLAB\\VIPA Analysis Code\\experiment_ids_cond.mat')
+    load('S:\VIPA Study\EEG Data\MATLAB\\experiment_ids_cond.mat')
     end
 end
 data_ids = experiment_ids(idn).data;
@@ -96,7 +96,7 @@ for j=1:length(ALLEEG)
     fft_data(j).chaninfo = ALLEEG(j).chanlocs; %channel information
     fft_data(j).voltagedata = data; %store voltage data in output variable
     
-    %Write voltage data to .csv file for use in sLORETA (opt.)
+    %Write voltage data to .csv file for use in sLORETA (opt.): STUDY LAPTOP ONLY!
     %{
     id = data_ids{j};
     name = [id '_' ppt_id '.csv'];
@@ -137,7 +137,7 @@ end
 
 % Load existing data (if re-reunning statistical analysis)
 %{
-data_path = ['C:\\Users\\The UEA VR & EEG Lab\\Documents\\MATLAB\\VIPA Analysis Code\\E'...
+data_path = ['S:\VIPA Study\EEG Data\MATLAB\\E'...
     num2str(Exp) '_fft_data\\fft_data_' ppt_id '.mat'] 
 load(data_path)
 %Update info
@@ -166,7 +166,7 @@ ncmp = min(size(fft_data(d1).powavg,1), size(fft_data(d2).powavg,1)); %number of
 
 %figure(d2), clf, hold on
 for k=2:length(freq_bounds)
-%% Statistical Analysis (Whole Scalp: concatenated data)
+%% Section 6: Statistical Analysis (Whole Scalp: concatenated data)
         %Step 1: Select data from freq band
         preData  = preInt(:,freq_bounds(k-1):freq_bounds(k));
             n1 = size(preData,2);
@@ -215,7 +215,7 @@ labels = {'Max Perm' 'Delta' 'Theta' 'Alpha' 'Beta 1' 'Beta 2' 'Beta 3' 'Gamma'}
     set(gcf, 'name', figtitle)
 %}
 
-%% Section 6: Statistical Analysis (Single channel: concatenated data)
+%% Section 7: Statistical Analysis (Single channel: concatenated data)
 % Only to be performed if freq band is significant at scalp level
 %
 trialsig = fft_data(s1).scalpsig(k-1);
