@@ -1,14 +1,16 @@
-This code is specific to data collected for the VIPA Study at the University of East Anglia, led by Dr Jordan Tsigarides (MD). Written by Vanessa Grove (MSc)
+These codes are specific to data collected for the VIPA Study at the University of East Anglia, led by Dr Jordan Tsigarides (MD). Written by Vanessa Grove (MSc)
 
-Purpose of code: To run spectral analysis on resting state EEG data and compare data during/following use of Virtual Reality technology to a baseline dataset. Main analysis occurs using data averaged across the whole scalp in seven frequency bands. If the power in a frequency band is found to be significantly different to the baseline dataset, a supplementary analysis will run which will analyse each of the 64 channels individually to examine which channels/groups of channels are demonstrating differences. The results of this code can be visualised in the visualisation code, which is in a separate file.
+Purpose of codes: Statistics code runs spectral analysis on resting state EEG data and compare data during/following use of Virtual Reality technology to a baseline dataset. Main analysis occurs using data averaged across the whole scalp in seven frequency bands. If the power in a frequency band is found to be significantly different to the baseline dataset, a supplementary analysis will run which will analyse each of the 64 channels individually to examine which channels/groups of channels are demonstrating differences. The results of this code can be visualised in the visualisation code.
 
-IMPORTANT- This code can only be run on a device that is connected to the S: drive on a UEA-based server.
+IMPORTANT- These codes can only be run on a device that is connected to the S: drive on a UEA-based server.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+STATISTICS CODE (static_spec_ALL_newstats.m)
 
 Setup: To use this code on new data, user will update the first three lines of code with the appropriate information. This must be done manually before running the code.
 
-Code Structure: SECTION 1- Data Parameters
+Code Structure: 
+SECTION 1- Data Parameters
 
 * ppt_id- ID number of participant or appended dataset. IMPORTANT: this variable must match the processed EEG data file of interest exactly (i.e. if EEG file is called APPENDED_EC_pre, then 'ppt_id' MUST be 'APPENDED').
 * Exp- Number of experiment being analysed (either 2 or 3)
@@ -38,3 +40,8 @@ SECTION 6- Whole-Scalp Analysis
 SECTION 7- Single Channel Analysis Note: This section is only performed if the result of the whole-scalp data is significant.
 * The relevant value from 'fft_data.scalpsig' is evaluated. If the value is ‘0’, this section is skipped.
 * The same procedure as above is repeated, however, this time it is computed for each of the 64 channels individually, therefore the ‘true’ test statistic output is a 1 x 64 matrix of p-values corresponding to each channel. The result of permutation testing is a 5000 x 64 matrix. In order to calculate the final p-value for each of the channels and to account for multiple comparisons, the minimum value of each of the permutes is selected (across channels), resulting in a final distribution of 5000 p-values. The true test statistic of each of the 64 channels is then compared to this single distribution using the formula above. The values are stored in 'fft_data.chan_pvals', and the logical values representing significance are stored in 'fft_data.sigdif'.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+VISUALISATION CODE (static_spec_visualisation.m)
+
+Setup: To use this code on new data, user will update the first three lines of code with the appropriate information. This must be done manually before running the code.
