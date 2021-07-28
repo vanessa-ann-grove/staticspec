@@ -7,18 +7,21 @@ IMPORTANT- These codes can only be run on a device that is connected to the S: d
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 STATISTICS CODE (static_spec_ALL_newstats.m)
 
-Setup: To use this code on new data, user will update the first three lines of code with the appropriate information. This must be done manually before running the code.
+Setup: To use this code on new data, user will update the first section of code with the appropriate information. This must be done manually before running the code.
 
 Code Structure: 
 SECTION 1- Data Parameters
 
 * ppt_id- ID number of participant or appended dataset. IMPORTANT: this variable must match the processed EEG data file of interest exactly (i.e. if EEG file is called APPENDED_EC_pre, then 'ppt_id' MUST be 'APPENDED').
 * Exp- Number of experiment being analysed (either 2 or 3)
-* Comparison- Type of comparison of interest (1 = sequential order (default), 2 = condition (i.e. by game or by environment). Other information in this section regarding statistical analysis details will get stored in the output variable for future reference. Only update this section if rerunning statistical analysis with new parameters.
+* Comparison- Type of comparison of interest (1 = sequential order (default), 2 = condition (i.e. by game or by environment).
+* rerun_statistics- 'Y' if rerunning statistics with different parameters on an existing fft_data variable (default). 'N' if creating a new fft_data variable from preprocessed EEG files
+
+Other information in this section regarding statistical analysis details will get stored in the output variable for future reference. Update this section if rerunning statistical analysis with new parameters.
 
 SECTION 2- Data Parameters This section will set up the filepath for accessing the EEG files of interest and will use the information provided by the first section to prepare the output variable according to the experiment number and type of comparison being facilitated.
 
-SECTION 3- Data Load This section will load the preprocessed EEG files of interest into an 'ALLEEG' structure.
+SECTION 3- Data Load This section will load preprocessed EEG files of interest into an 'ALLEEG' structure if creating a new fft_data variable. Otherwise, the existing fft_data variable will be loaded in from memory and section 4 will be skipped.
 
 SECTION 4- EEGLab-based Power Calculations
 * Output variable 'fft_data' is initialized and set up
@@ -40,6 +43,8 @@ SECTION 6- Whole-Scalp Analysis
 SECTION 7- Single Channel Analysis Note: This section is only performed if the result of the whole-scalp data is significant.
 * The relevant value from 'fft_data.scalpsig' is evaluated. If the value is ‘0’, this section is skipped.
 * The same procedure as above is repeated, however, this time it is computed for each of the 64 channels individually, therefore the ‘true’ test statistic output is a 1 x 64 matrix of p-values corresponding to each channel. The result of permutation testing is a 5000 x 64 matrix. In order to calculate the final p-value for each of the channels and to account for multiple comparisons, the minimum value of each of the permutes is selected (across channels), resulting in a final distribution of 5000 p-values. The true test statistic of each of the 64 channels is then compared to this single distribution using the formula above. The values are stored in 'fft_data.chan_pvals', and the logical values representing significance are stored in 'fft_data.sigdif'.
+
+IMPORTANT- 'fft_data' VARIABLE MUST BE **MANUALLY SAVED** FOLLOWING THE RUNNING OF THIS CODE!
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 VISUALISATION CODE (static_spec_visualisation.m)
