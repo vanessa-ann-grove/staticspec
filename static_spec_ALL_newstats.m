@@ -6,16 +6,15 @@
 % electrophysiogical data. For use on EEGLab-formatted, preprocessed data
 % which has been properly inspected and cleaned of artefacts.
 %
-% To use code: Update first three lines of code according to desired analysis. 
-% If new analysis, keep code as is. If repeat analysis for existing data,
-% comment out sections 3 and 4 and uncomment first part of section 5. 
+% To use code: Update first section of code according to desired analysis.
+% For help, see README file and Variable Names file on GitHub.
 %
-% Note: Only will work on study laptop, when connected to UEA server.
+% Note: Only will work on a device connected to UEA server.
 
 %% Section 1: Data Parameters- UPDATE FOR EACH DATASET!
 
-ppt_id = 'R10'; %Participant ID
-Exp = 3; %Experiment Number (2 or 3)
+ppt_id = 'APPENDED_FMS'; %Participant ID
+Exp = 2; %Experiment Number (2 or 3)
 comparison = 1; %Data Comparison (1 = order, 2 = condition (group stats only)) 
 rerun_statistics = 'Y'; %{'Y' if rerunning statistics for existing fft_data variable,...
                         % 'N' if running EEG data to create new
