@@ -1,4 +1,4 @@
-These codes are specific to data collected for the VIPA Study at the University of East Anglia, led by Dr Jordan Tsigarides (MD). Written by Vanessa Grove (MSc)
+These codes are specific to data collected for the VIPA Study at the University of East Anglia, led by Dr Jordan Tsigarides. Written by Vanessa Grove (MSc)
 
 Purpose of codes: Statistics code runs spectral analysis on resting state EEG data and compare data during/following use of Virtual Reality technology to a baseline dataset. Main analysis occurs using data averaged across the whole scalp in seven frequency bands. If the power in a frequency band is found to be significantly different to the baseline dataset, a supplementary analysis will run which will analyse each of the 64 channels individually to examine which channels/groups of channels are demonstrating differences. The results of this code can be visualised in the visualisation code.
 
