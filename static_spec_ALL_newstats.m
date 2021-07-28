@@ -13,15 +13,13 @@
 
 %% Section 1: Data Parameters- UPDATE FOR EACH DATASET!
 
-ppt_id = 'APPENDED_FMS'; %Participant ID
-Exp = 2; %Experiment Number (2 or 3)
+ppt_id = 'APPENDED_fms'; %Participant ID
+Exp = 3; %Experiment Number (2 or 3)
 comparison = 1; %Data Comparison (1 = order, 2 = condition (group stats only)) 
-rerun_statistics = 'Y'; %{'Y' if rerunning statistics for existing fft_data variable,...
-                        % 'N' if running EEG data to create new
-                        % fft_data variable}
+rerun_statistics = 'Y'; %'Y' if rerunning statistics for existing fft_data variable,...
+                        %'N' if running EEG data to create new fft_data variable
 
 % If rerunning statistics, adjust parameters here
-test_stat = 'Paired Wilcoxon Signed Rank';
 uncorrected_pval = .01;
 critical_pval = uncorrected_pval / 7; %Bonferonni correction for 7 freq bands
 N = 5000; %number of permutes
@@ -44,7 +42,7 @@ else if Exp == 3
     idn = 2;
     filepath = 'S:\\VIPA Study\\EEG Data\\Experiment 3\\Resting State Data\\Processed Files\\';
     if comparison == 1
-         condition = {'EC_pre' 'G1' 'G2' 'G3' 'G4' 'EC_post'};
+        condition = {'EC_pre' 'G1' 'G2' 'G3' 'G4' 'EC_post'};
     else if comparison == 2
          condition = {'EC_pre' 'AS' 'ES' 'FF' 'PP' 'EC_post'};
         end
@@ -59,6 +57,7 @@ else if comparison == 2
     end
 end
 data_ids = experiment_ids(idn).data;
+test_stat = 'Paired Wilcoxon Signed Rank';
 
 %% Section 3: Data Load
 
@@ -150,7 +149,7 @@ fft_data(1).Npermutes = N;
 end
 
 %% Section 5: Statistics Setup
-
+%
 stats_id = experiment_ids(idn).stats;
 d1 = 1; % Baseline dataset (1 = pre-intervention)
 
@@ -258,12 +257,12 @@ else if trialsig == 1
         end
     end
 end
-
+%}
 %% Print Results for User View
 
 disp('Analysis Complete. Dont forget to save fft_data variable!!!!')
 
-statistics = experiment_ids.data;
+statistics = experiment_ids(idn).data;
 freq_bands = {'Delta band' 'Theta band' 'Alpha band' 'Beta1 band'...
     'Beta2 band' 'Beta3 band' 'Gamma band'};
 
@@ -276,7 +275,7 @@ else if Exp == 2
     end
 end
 
-if any(all_sig,'all') == 1
+if any(all_sig,'all')
     disp('Significant Results Observed:')
 for s = 1:(length(statistics)-1)
     for f = 1:length(freq_bands)
@@ -286,7 +285,6 @@ for s = 1:(length(statistics)-1)
        end
     end
 end
-else if any(all_sig, 'all') == 0
+    else
         disp('No significant results observed')
-    end
 end
