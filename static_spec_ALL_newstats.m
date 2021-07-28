@@ -14,7 +14,7 @@
 
 %% Section 1: Data Parameters- UPDATE FOR EACH DATASET!
 
-ppt_id = 'V10'; %Participant ID
+ppt_id = 'R10'; %Participant ID
 Exp = 3; %Experiment Number (2 or 3)
 comparison = 1; %Data Comparison (1 = order, 2 = condition (group stats only)) 
 rerun_statistics = 'Y'; %{'Y' if rerunning statistics for existing fft_data variable,...
@@ -228,22 +228,19 @@ if trialsig == 0
         fft_data(s1).truestat(k-1,:) = 1+zeros(1,ncmp);
         fft_data(s1).chanperm(k-1,:) = zeros(1,N);
         fft_data(s1).chan_pvals(k-1,:) = 1+zeros(1,ncmp);
-        fft_data(s1).sigdif(k-1,:) = zeros(1,ncmp);
-        
+        fft_data(s1).sigdif(k-1,:) = zeros(1,ncmp);    
 else if trialsig == 1
-%}
         % Step 7: Compute true test statistic 
             %Wilcoxon Signed Rank test for paired samples
             for chani = 1:ncmp
                 [p h stats] = signrank(allData(truelabels==1,chani),allData(truelabels==2,chani));
                fft_data(s1).truestat(k-1,chani) = p;  %
             end
-    
-        % Step 8: Permute and store max value
+        % Step 8a: Permute and store max value
         for permi=1:N
-            % Step 9: Shuffle data labels
+        % Step 8b: Shuffle data labels
             shuflabels = truelabels(randperm(n1+n2));
-            %Step 10: Compute test stat with shuffled labels and store
+        %Step 8c: Compute test stat with shuffled labels and store
                 perm_stat = zeros(1,ncmp);
                 for chani = 1:ncmp
                     [p h stats] = signrank(allData(shuflabels==1,chani),allData(shuflabels==2,chani));
@@ -251,16 +248,46 @@ else if trialsig == 1
                 end
                  fft_data(s1).chanperm(k-1,permi) = min(perm_stat);
         end
-
-        %Step 11: Calculate p value and create new variable to demonstrate significant results
+        %Step 9: Calculate p value and create new variable to demonstrate significant results
         chan_stat = fft_data(s1).truestat(k-1,:);
         abs_xtreme =  fft_data(s1).chanperm(k-1,:)';
         pval = sum(abs_xtreme < chan_stat) / N;
         fft_data(s1).chan_pvals(k-1,:) = pval;
         trialsig = pval < critical_pval;
         fft_data(s1).sigdif(k-1,:) = trialsig;
-
             end
         end
+    end
+end
+
+%% Print Results for User View
+
+disp('Analysis Complete. Dont forget to save fft_data variable!!!!')
+
+statistics = experiment_ids.data;
+freq_bands = {'Delta band' 'Theta band' 'Alpha band' 'Beta1 band'...
+    'Beta2 band' 'Beta3 band' 'Gamma band'};
+
+if Exp == 3
+all_sig = vertcat(fft_data(7).scalpsig,fft_data(8).scalpsig,...
+    fft_data(9).scalpsig,fft_data(10).scalpsig,fft_data(11).scalpsig);
+else if Exp == 2
+  all_sig = vertcat(fft_data(5).scalpsig,fft_data(6).scalpsig,...
+    fft_data(7).scalpsig);  
+    end
+end
+
+if any(all_sig,'all') == 1
+    disp('Significant Results Observed:')
+for s = 1:(length(statistics)-1)
+    for f = 1:length(freq_bands)
+       if all_sig(s,f) == 1 
+           disp([char(statistics(s+1)) ' ' char(freq_bands(f))...
+               ' is significant to baseline!'])
+       end
+    end
+end
+else if any(all_sig, 'all') == 0
+        disp('No significant results observed')
     end
 end
