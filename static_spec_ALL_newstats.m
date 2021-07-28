@@ -14,10 +14,14 @@
 
 %% Section 1: Data Parameters- UPDATE FOR EACH DATASET!
 
-ppt_id = 'APPENDED_NO'; %Participant ID
+ppt_id = 'V10'; %Participant ID
 Exp = 3; %Experiment Number (2 or 3)
 comparison = 1; %Data Comparison (1 = order, 2 = condition (group stats only)) 
+rerun_statistics = 'Y'; %{'Y' if rerunning statistics for existing fft_data variable,...
+                        % 'N' if running EEG data to create new
+                        % fft_data variable}
 
+% If rerunning statistics, adjust parameters here
 test_stat = 'Paired Wilcoxon Signed Rank';
 uncorrected_pval = .01;
 critical_pval = uncorrected_pval / 7; %Bonferonni correction for 7 freq bands
@@ -58,8 +62,10 @@ end
 data_ids = experiment_ids(idn).data;
 
 %% Section 3: Data Load
-% Note: Comment out next two sections if rerunning new stats
-%
+
+if rerun_statistics == 'N'
+%Load preprocessed EEG files into an ALLEEG variable structure
+
 all_files = cell.empty(length(condition),0);
 for time = 1:length(condition)
     file = [char(ppt_id), '_' char(condition(time)) '.set'];
@@ -96,7 +102,7 @@ for j=1:length(ALLEEG)
     fft_data(j).chaninfo = ALLEEG(j).chanlocs; %channel information
     fft_data(j).voltagedata = data; %store voltage data in output variable
     
-    %Write voltage data to .csv file for use in sLORETA (opt.): STUDY LAPTOP ONLY!
+    %Write voltage data to .csv file for use in sLORETA (opt.)
     %{
     id = data_ids{j};
     name = [id '_' ppt_id '.csv'];
@@ -131,22 +137,21 @@ for j=1:length(ALLEEG)
     end
     fft_data(j).scalpavg = mean(fft_data(j).powavg,1);
 end
-%}
 
-%% Section 5: Statistics Setup
-
+else if rerun_statistics == 'Y'
 % Load existing data (if re-reunning statistical analysis)
-%{
-data_path = ['S:\VIPA Study\EEG Data\MATLAB\\E'...
+data_path = ['S:\VIPA Study\EEG Data\MATLAB\E'...
     num2str(Exp) '_fft_data\\fft_data_' ppt_id '.mat'] 
 load(data_path)
 %Update info
 fft_data(1).Test_Stat = test_stat;
 fft_data(1).Critical_Pval = critical_pval;
 fft_data(1).Npermutes = N;
-%}
+    end
+end
 
-% Statistics Setup 
+%% Section 5: Statistics Setup
+
 stats_id = experiment_ids(idn).stats;
 d1 = 1; % Baseline dataset (1 = pre-intervention)
 
