@@ -13,15 +13,22 @@
 %% Data Parameters: UPDATE FOR EACH DATASET
 clear all
 
-ppt_id = 'V6'; % Participant ID
-Exp = 3; % Experiment Number
+ppt_id = 'APPENDED_FMS'; % Participant ID
+Exp = 2; % Experiment Number
 comparison = 1; %Data Comparison (1 = order, 2 = condition) 
-
+cohort = 'FMS Patients (n = 16)'; %Give your sample a name! To be displayed on figures
 
 %% Data Setup
 
 % Load Data
-data_path = ['S:\VIPA Study\EEG Data\MATLAB\E' num2str(Exp)...
+testpath = 'S:\\';
+if exist([testpath 'VIPA Study\EEG Data\MATLAB\\experiment_ids_order.mat'], 'file')
+    path1 = testpath;
+else
+    path1 = '\\ueahome\CfE-Research\\';
+end
+
+data_path = [path1 'VIPA Study\EEG Data\MATLAB\E' num2str(Exp)...
     '_fft_data\\fft_data_' ppt_id '.mat'] %will print to ensure correct dataset has been loaded
 load(data_path)
 
@@ -35,9 +42,9 @@ else if Exp == 3
 end
 
 if comparison == 1
-    load('S:\VIPA Study\EEG Data\MATLAB\\experiment_ids_order.mat')
+    load([path1 'VIPA Study\EEG Data\MATLAB\\experiment_ids_order.mat'])
 else if comparison == 2
-    load('S:\VIPA Study\EEG Data\MATLAB\\experiment_ids_cond.mat')
+    load([path1 'VIPA Study\EEG Data\MATLAB\\experiment_ids_cond.mat'])
     end
 end
 
@@ -54,7 +61,7 @@ chaninfo = fft_data(1).chaninfo;
 %
 %
 figure(3),clf
-figtitle = [ppt_id ': ' 'Significance by channel over time'];
+figtitle = [cohort ': ' 'Significance by channel over time'];
 
 % Define colour limits (opt.)
 %
@@ -155,11 +162,14 @@ else if comparison == 2 && Exp == 3
     legend({'Baseline' 'AS' 'ES' 'FF' 'PP' 'Post-VR' 'Significant to baseline'})
 else if comparison == 1 && Exp == 2
     legend({'Baseline' 'E1' 'E2' 'Post-VR' 'Significant to baseline'})
+else if comparison == 2 && Exp == 2
+    legend({'Baseline' 'Sunny' 'Snowy' 'Post-VR' 'Significant to baseline'})
+            end
         end
     end
 end
 
-title([ppt_id ': ' 'Average Scalp Power'])
+title([cohort ': ' 'Average Scalp Power'])
 
 % Full Spectra
 hold on
@@ -188,10 +198,13 @@ else if comparison == 2 && Exp == 3
     legend({'Baseline' 'AS' 'ES' 'FF' 'PP' 'Post-VR'})
 else if comparison == 1 && Exp == 2
     legend({'Baseline' 'E1' 'E2' 'Post-VR'})
+else if comparison == 2 && Exp == 2
+    legend({'Baseline' 'Sunny' 'Snowy' 'Post-VR'})
+            end
         end
     end
 end
-title('Spectra of Controls During VR Intervention')
+title(['Spectra of ' cohort ' During VR Intervention'])
 xlabel('Frequency (Hz)')
 ylabel('Log Power Spectral Density 10*log_{10}(\muV^{2}/Hz)')
 
@@ -213,7 +226,7 @@ for freqi = 1:7
 end
 
 % Create figure with maps
-figtitle = [ppt_id ': ' 'Average Scalp Power Over Time'];
+figtitle = [cohort ': ' 'Average Scalp Power Over Time'];
 figure(20),clf
 hold on
 for freqi = 1:7
