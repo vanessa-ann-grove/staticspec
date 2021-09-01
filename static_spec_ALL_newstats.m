@@ -13,24 +13,31 @@
 
 %% Section 1: Data Parameters- UPDATE FOR EACH DATASET!
 
-ppt_id = 'APPENDED_fms'; %Participant ID
-Exp = 3; %Experiment Number (2 or 3)
+ppt_id = 'FMS_Appended'; %Participant ID
+Exp = 2; %Experiment Number (2 or 3)
 comparison = 1; %Data Comparison (1 = order, 2 = condition (group stats only)) 
 rerun_statistics = 'Y'; %'Y' if rerunning statistics for existing fft_data variable,...
                         %'N' if running EEG data to create new fft_data variable
 
 % If rerunning statistics, adjust parameters here
-uncorrected_pval = .01;
+uncorrected_pval = .05;
 critical_pval = uncorrected_pval / 7; %Bonferonni correction for 7 freq bands
 N = 5000; %number of permutes
 
 
 %% Section 2: Data Setup
 
+testpath = 'S:\\';
+if exist([testpath 'VIPA Study\EEG Data\MATLAB\\experiment_ids_order.mat'], 'file')
+    path1 = testpath;
+else
+    path1 = '\\ueahome\CfE-Research\\';
+end
+
 if Exp == 2
     n = 3;
     idn = 1;
-    filepath = 'S:\\VIPA Study\\EEG Data\\Experiment 2\\Resting State Data\\Processed Files\\';
+    filepath = [path1 'VIPA Study\\EEG Data\\Experiment 2\\Resting State Data\\Processed Files\\'];
     if comparison == 1
         condition = {'pre_EC' 'E1' 'E2' 'post_EC'};
     else if comparison == 2
@@ -40,7 +47,7 @@ if Exp == 2
 else if Exp == 3
     n = 5;
     idn = 2;
-    filepath = 'S:\\VIPA Study\\EEG Data\\Experiment 3\\Resting State Data\\Processed Files\\';
+    filepath = [path1 'VIPA Study\\EEG Data\\Experiment 3\\Resting State Data\\Processed Files\\'];
     if comparison == 1
         condition = {'EC_pre' 'G1' 'G2' 'G3' 'G4' 'EC_post'};
     else if comparison == 2
@@ -51,9 +58,9 @@ end
 end
 
 if comparison == 1
-    load('S:\VIPA Study\EEG Data\MATLAB\\experiment_ids_order.mat')
+    load([path1 'VIPA Study\EEG Data\MATLAB\\experiment_ids_order.mat'])
 else if comparison == 2
-    load('S:\VIPA Study\EEG Data\MATLAB\\experiment_ids_cond.mat')
+    load([path1 'VIPA Study\EEG Data\MATLAB\\experiment_ids_cond.mat'])
     end
 end
 data_ids = experiment_ids(idn).data;
@@ -138,7 +145,7 @@ end
 
 else if rerun_statistics == 'Y'
 % Load existing data (if re-reunning statistical analysis)
-data_path = ['S:\VIPA Study\EEG Data\MATLAB\E'...
+data_path = [path1 'VIPA Study\EEG Data\MATLAB\E'...
     num2str(Exp) '_fft_data\\fft_data_' ppt_id '.mat'] 
 load(data_path)
 %Update info
@@ -149,7 +156,8 @@ fft_data(1).Npermutes = N;
 end
 
 %% Section 5: Statistics Setup
-%
+
+disp('Running scalp statistics........')
 stats_id = experiment_ids(idn).stats;
 d1 = 1; % Baseline dataset (1 = pre-intervention)
 
@@ -228,6 +236,7 @@ if trialsig == 0
         fft_data(s1).chan_pvals(k-1,:) = 1+zeros(1,ncmp);
         fft_data(s1).sigdif(k-1,:) = zeros(1,ncmp);    
 else if trialsig == 1
+        disp('Significant difference found at scalp level! Running channel statistics......')
         % Step 7: Compute true test statistic 
             %Wilcoxon Signed Rank test for paired samples
             for chani = 1:ncmp
@@ -288,3 +297,5 @@ end
     else
         disp('No significant results observed')
 end
+
+ 
