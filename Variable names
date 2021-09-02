@@ -1,17 +1,22 @@
 Helpful index to understand input options for 'ppt_id' variable in analysis code. Enter variable names EXACTLY as appears on this code (copy&paste if having trouble)
 
 Individual Datasets
-  VIPA Experiment 3: 'V2' 'V3' 'V4' 'V5' 'V6' 'V8' 'V9' 'V10' 'V11' 'V12' 'V13' 'V14' 'V15' 'V16' 'V17'     
-      'V21' 'V23' 'V24' 'V29' 'V32' 'V34'
+  VIPA Experiment 3: 'V1' 'V2' 'V3' 'V4' 'V5' 'V6' 'V7' 'V8' 'V9' 'V10' 'V11' 'V12' 'V13' 'V14' 'V15' 'V16' 'V17'     
+      'V21' 'V23' 'V24' 'V27' 'V28' 'V29' 'V32' 'V34' 'V35'
   RIVET Experiment 2: 'R3' 'R6' 'R8' 'R9' 'R10' 'R12' 'R14' 'R15' 'R17' 'R19' 'R24' 'R26' 'R27' 'R30'
-  VIPA Experiment 2: 'V5' 'V6' 'V8' 'V11' 'V12' 'V14' 'V21'
+  VIPA Experiment 2: 'V1' 'V5' 'V6' 'V7' 'V8' 'V9' 'V10' 'V11' 'V12' 'V13' 'V14' 'V15' 'V16' 'V21' 'V23' 'V27
+      'V28' 'V34' 'V35'
   
 
 Appended Datasets
-  VIPA Experiment 3: 'APPENDED_FMS' 'APPENDED_FMS_cond' 'APPENDED_pain' 'APPENDED_pain_cond'
-  RIVET Experiment 2: 'APPENDED_ctl' 'APPENDED_ctl_cond'
-  VIPA Experiment 2: 'APPENDED_FMS' 'APPENDED_FMS_cond'
+  VIPA Experiment 3: 'APPENDED_FMS' 'APPENDED_FMS_cond' 'APPENDED_Pain' 'APPENDED_Pain_cond'
+  RIVET Experiment 2: 'APPENDED_ctl' 'APPENDED_ctl_cond' 
+  VIPA Experiment 2: 'APPENDED_FMS' 'APPENDED_FMS_cond' 'APPENDED_Pain' 'APPENDED_Pain_cond'
   Note: '_pain' = all VIPA participants (FMS+TKR)
       '_FMS' = FMS participants only
       '_ctl' = RIVET participants (control)
       '_cond' = condition (i.e. games or environment)
+
+Other datasets:
+Files with the name 'game_files.mat' represent a list of the individual datasets used to build the appended datasets 
+  for each game or environment. 
