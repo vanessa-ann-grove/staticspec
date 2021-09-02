@@ -49,4 +49,8 @@ IMPORTANT- 'fft_data' VARIABLE MUST BE **MANUALLY SAVED** FOLLOWING THE RUNNING 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 VISUALISATION CODE (static_spec_visualisation.m)
 
-Setup: To use this code on new data, user will update the first three lines of code with the appropriate information. This must be done manually before running the code.
+Setup: To use this code on new data, user will update the first four lines of code with the appropriate information. This must be done manually before running the code. Resulting figures (arbitrary numbers) are as follows:
+
+* Figure 20: Average scalp power in each frequency band (columns) at each time point (rows). 
+* Figure 5: Top panel displays the full spectra at each time point. Bottom pannel shows the average band power at each time point in bar graph format for easy comparison. Significant differences are displayed with stars over each bar that is different to the baseline measurement.
+* Figure 3: Each row of scalp maps represents the mean power difference of each dataset compared to baseline (i.e. row 1 is G1 - baseline for experiment 3 or E1 - baseline for experiment 2) in each of the seven frequency bands (columns). If a significant difference was found at scalp level, channels that were found to be significant will be displayed over the scalp. 
